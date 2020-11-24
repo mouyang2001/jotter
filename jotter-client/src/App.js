@@ -63,7 +63,7 @@ function App() {
   return (
     <div>
       <div className="toolkit">
-        <button className="eraser-button" onClick={switchToolEraser}>eraser</button>
+        <button className="eraser-button">eraser</button>
       </div>
       <canvas
         className="canvas"
