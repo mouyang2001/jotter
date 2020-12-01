@@ -1,4 +1,4 @@
-const { admin } = require('./admin');
+const { admin, db } = require('./admin');
 
 // middleware to make sure user is using unique token id
 module.exports = (req, res, next) => {
@@ -17,7 +17,6 @@ module.exports = (req, res, next) => {
     .verifyIdToken(idToken)
     .then((decodedToken) => {
       req.user = decodedToken;
-      console.log(decodedToken);
       return db
         .collection("users")
         .where("userId", "==", req.user.uid)
