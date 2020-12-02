@@ -12,6 +12,9 @@ const getAllNotes = (req, res) => {
           body: doc.data().body,
           userHandle: doc.data().userHandle,
           createdAt: doc.data().createdAt,
+          commentCount: doc.data().commentCount,
+          likeCount: doc.data().likeCount,
+          userImage: doc.data().userImage
         });
       });
       return res.json(notes);
@@ -77,7 +80,7 @@ const getNote = (req, res) => {
 }
 
 const commentOnNote = (req, res) => {
-  if (req.body.body.trim() === '') return res.status(400).json({ error: 'Must not be empty'});
+  if (req.body.body.trim() === '') return res.status(400).json({ comment: 'Must not be empty'});
   const newComment = {
     body: req.body.body,
     createdAt: new Date().toISOString(),
@@ -184,4 +187,24 @@ const unlikeNote = (req, res) => {
       });
 }
 
-module.exports = { getAllNotes, postNote, getNote, commentOnNote, likeNote, unlikeNote };
+const deleteNote = (req, res) => {
+  const document = db.doc(`/notes/${req.params.noteId.trim()}`);
+  document.get()
+    .then(doc => {
+      if (!doc.exists) return res.status(404).json({ error: "Note not found" });
+      if (doc.data().userHandle !== req.user.handle) {
+        return res.status(403).json({error: "Unorthorized"});
+      } else {
+        return document.delete();
+      }
+    })
+    .then(() => {
+      res.json({message:'Note deleted successfully'});
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({error: err.code});
+    });
+}
+
+module.exports = { getAllNotes, postNote, getNote, commentOnNote, likeNote, unlikeNote, deleteNote };

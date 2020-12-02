@@ -59,7 +59,7 @@ const signUp = (req, res) => {
       if (err.code === "auth/email-already-in-use") {
         return res.status(400).json({ email: "Email is already in use" });
       } else {
-        return res.status(500).json({ error: err.code });
+        return res.status(500).json({ general: "Something went wrong, please try again" });
       }
     });
 };
@@ -86,6 +86,8 @@ const login = (req, res) => {
     })
     .catch((err) => {
       console.error(err);
+      // auth/wrong-password <-- extras
+      // auth/user-not-user
       if (err.code === "auth/wrong-password")
         return res
           .status(403)
@@ -123,8 +125,24 @@ const getAuthenticatedUser = (req, res) => {
     .then(data => {
       userData.likes = [];
       data.forEach(doc => {
-        userData.like.push(doc.data());
+        userData.likes.push(doc.data());
       });
+      return db.collection('notifications').where('recipient', '==', req.user.handle)
+        .orderBy('createdAt', 'desc').limit(10).get();
+    })
+    .then(data => {
+      userData.notifications = [];
+      data.forEach(doc => {
+        userData.notifications.push({
+          recipient: doc.data().recipient,
+          sender: doc.data().sender,
+          createdAt: doc.data().createdAt,
+          noteId: doc.data().noteId,
+          type: doc.data().type,
+          read:doc.data().read,
+          notificationId: doc.id
+        });
+      })
       return res.json(userData);
     })
     .catch(err => {
@@ -182,10 +200,62 @@ const uploadImage = (req, res) => {
   busboy.end(req.rawBody);
 }
 
+const getUserDetails = (req, res) => {
+  let userData = {};
+  db.doc(`/users/${req.params.handle.trim()}`).get()
+    .then(doc => {
+      if (doc.exists) {
+        userData.user = doc.data();
+        return db.collection('notes').where('userHandle', '==', req.params.handle)
+          .orderBy('createdAt', 'desc')
+          .get();
+      } else {
+        return res.status(404).json({error: "User not found"});
+      }
+    })
+    .then(data => {
+      userData.notes = [];
+      data.forEach(doc => {
+        userData.notes.push({
+          body: doc.data().body,
+          userHandle: doc.data().userHandle,
+          userImage: doc.data().userImage,
+          createdAt: doc.data().createdAt,
+          likeCount: doc.data().likeCount,
+          commentCount: doc.data().commentCount,
+          noteId: doc.id,
+        });
+      })
+      return res.json(userData);
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.status(500).json({error: err.code});
+    });
+}
+
+const markNotificationsRead = (req, res) => {
+  let batch = db.batch();
+  req.body.forEach(notificationId => {
+    const notification = db.doc(`/notifications/${notificationId}`);
+    batch.update(notification, {read: true});
+  });
+  batch.commit()
+    .then(() => {
+      return res.json({message: 'Notifications marked read'});
+    })
+    .catch(err => {
+      console.error(err);
+      return res.status(500).json({error:err.code});
+    });
+}
+
 module.exports = {
   signUp,
   login,
   uploadImage,
   addUserDetails,
   getAuthenticatedUser,
+  getUserDetails,
+  markNotificationsRead
 };

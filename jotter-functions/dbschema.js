@@ -22,6 +22,16 @@ let db = {
       body: "Nice I didn't think of that",
       createdAt: "2020-12-10",
     }
+  ],
+  notifications: [
+    {
+      recipient: 'user',
+      sender: 'john',
+      read: 'true | false',
+      noteId: 'as;dklasdf;askldf',
+      type: 'like | comment',
+      createdAt: '2020:....'
+    }
   ]
 };
 
