@@ -7,6 +7,10 @@ const fbAuth = require('./util/fbAuth');
 
 const { admin, db } = require("./util/admin");
 
+// fix cors error
+const cors = require('cors');
+app.use(cors());
+
 const {
   getAllNotes,
   postNote,
