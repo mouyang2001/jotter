@@ -1,9 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
 import './App.css';
 
 // components
 import Navbar from './components/Navbar';
+import themeObject from './util/theme'
 
 //pages
 import home from './pages/Home';
@@ -13,24 +15,14 @@ import login from './pages/Login';
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import {MuiThemeProvider} from "@material-ui/core/styles";
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: "#9c27b0",
-      light: "#ab47bc",
-      dark: "#7b1fa2",
-      contrastText: "#fff",
-    },
-    secondary: {
-      main: "#d500f9",
-      light: "#e040fb",
-      dark: "#6a1b9a",
-      contrastText: "#fff",
-    },
-  },
-});
+const theme = createMuiTheme(themeObject);
 
-// front end 4:44:44;
+const token = localStorage.FBIdToken;
+if (token) {
+  const decodedToken = jwtDecode(token);
+  console.log(decodedToken);
+  // 6:00:00
+} 
 
 function App() {
   return (
