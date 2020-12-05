@@ -14,11 +14,11 @@ export default function Home() {
       .then(res => {
         setNotes(res.data);
       })
-      .catch(err => console.error(err));
+      .catch(err => console.log(err));
   }, []);
 
   let recentNotesMarkup = notes ? (
-    notes.map((note, i) => <Note note={note} key={i}/>)
+    notes.map((note) => <Note note={note} key={note.noteId}/>)
   ) : <p>loading</p>;
 
   return (
