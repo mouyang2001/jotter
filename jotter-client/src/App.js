@@ -11,7 +11,7 @@ import signup from './pages/Signup';
 import login from './pages/Login';
 
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
-import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
+import {MuiThemeProvider} from "@material-ui/core/styles";
 
 const theme = createMuiTheme({
   palette: {
