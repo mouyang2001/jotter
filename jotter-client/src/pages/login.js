@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Link} from 'react-router-dom'
+import {Link, useHistory} from 'react-router-dom'
 
 import axios from '../util/axios';
 
@@ -49,6 +49,8 @@ export default function Login(props) {
 
   const classes = useStyles();
 
+  const history = useHistory();
+
   const handleSubmit = (event) => {
     //prevent default behavior ie reload
     event.preventDefault();
@@ -63,13 +65,12 @@ export default function Login(props) {
     setLoading(true);
     axios.post('/login', userData)
       .then(res => {
-        console.log(res.data);
         localStorage.setItem("FBIdToken", `Bearer ${res.data.token}`);
         setLoading(false);
-        props.history.push('/');
+        history.push('/');
       })
       .catch(err => {
-        console.log(err);
+        console.log(err.response.data);
         setErrors(err.response.data);
         setLoading(false);
       });
@@ -79,12 +80,6 @@ export default function Login(props) {
     if (event.target.name === 'email') setEmail(event.target.value);
     if (event.target.name === 'password') setPassword(event.target.value);
   }
-
-  let customErrorMarkup = errors.error ? (
-    <Typography variant="body2" className={classes.customError}>
-              {errors.error}
-            </Typography>
-  ) : null;
 
   let loginMarkup = loading ? (
     <CircularProgress className={classes.progress} />
@@ -98,6 +93,12 @@ export default function Login(props) {
       Login
     </Button>
   );
+
+  let customErrorMarkup = errors.general ? (
+    <Typography variant="body2" className={classes.customError}>
+      {errors.general}
+    </Typography>
+  ) : null;
 
   return (
     <Grid container className={classes.form}>
@@ -134,8 +135,10 @@ export default function Login(props) {
           />
           {customErrorMarkup}
           {loginMarkup}
-          <br/>
-          <small>Don't have an account? Signup <Link to='/signup'>here</Link></small>
+          <br />
+          <small>
+            Don't have an account? Signup <Link to="/signup">here</Link>
+          </small>
         </form>
       </Grid>
       <Grid item sm={4} />

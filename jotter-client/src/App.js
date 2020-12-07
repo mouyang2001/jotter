@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import './App.css';
 
@@ -8,20 +8,25 @@ import Navbar from './components/Navbar';
 import themeObject from './util/theme'
 
 //pages
-import home from './pages/Home';
-import signup from './pages/Signup';
-import login from './pages/Login';
+import Home from './pages/Home';
+import Signup from './pages/Signup';
+import Login from './pages/Login';
 
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import {MuiThemeProvider} from "@material-ui/core/styles";
 
 const theme = createMuiTheme(themeObject);
 
+let authenticated;
 const token = localStorage.FBIdToken;
 if (token) {
   const decodedToken = jwtDecode(token);
   console.log(decodedToken);
-  // 6:00:00
+  if (decodedToken.exp * 1000 < Date.now()) {
+    authenticated = false;
+  } else {
+    authenticated = true;
+  }
 } 
 
 function App() {
@@ -32,9 +37,13 @@ function App() {
           <Navbar />
           <div className="container">
             <Switch>
-              <Route exact path="/" component={home} />
-              <Route exact path="/login" component={login} />
-              <Route exact path="/signup" component={signup} />
+              <Route exact path="/" component={Home} />
+              <Route exact path="/login" component={Login}>
+                {authenticated ? <Redirect to="/" /> : <Login/>}
+              </Route>
+              <Route exact path="/signup" component={Signup}>
+                {authenticated ? <Redirect to="/" /> : <Signup/>}
+              </Route>
             </Switch>
           </div>
         </Router>
