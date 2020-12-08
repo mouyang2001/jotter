@@ -8,9 +8,9 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import axios from 'axios';
-
 // redux stuff here:
+import { useDispatch, useSelector} from 'react-redux';
+import userActions from '../redux/actions/userActions'; 
 
 import AppIcon from '../images/icon.png';
 
@@ -46,40 +46,22 @@ const useStyles = makeStyles({
 export default function Login(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({});
 
   const classes = useStyles();
   const history = useHistory();
 
-  const handleSubmit = (event) => {
-    //prevent default behavior ie reload
-    event.preventDefault();
+  const loading = useSelector((state) => state.ui.loading);
+  const errors = useSelector((state) => state.ui.errors);
 
+  const dispatch = useDispatch();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
     const userData = {
       email: email,
       password: password
     }
-
-    // redux stuff
-    // loginUser(userData, history);
-    // dispatch({type: ''})
-
-    // before redux
-    setErrors({});
-    setLoading(true);
-      axios
-        .post("/login", userData)
-        .then((res) => {
-          localStorage.setItem("FBIdToken", `Bearer ${res.data.token}`);
-          setLoading(false);
-          history.push("/");
-        })
-        .catch((err) => {
-          console.log(err.response.data);
-          setErrors(err.response.data);
-          setLoading(false);
-        });
+    dispatch(userActions.loginUser(userData, history));
   }
 
   const handleChange = (event) => {
@@ -100,11 +82,11 @@ export default function Login(props) {
     </Button>
   );
 
-  let customErrorMarkup = errors.general ? (
+  let customErrorMarkup = errors.error ? (
     <Typography variant="body2" className={classes.customError}>
-      {errors.general}
+      {errors.error}
     </Typography>
-  ) : null;
+  ) : <div></div>;
 
   return (
     <Grid container className={classes.form}>

@@ -20,13 +20,18 @@ export default function Test() {
     dispatch(counterActions.decrement());
   };
 
+  const setAuth = () => {
+    dispatch({type: 'SET_AUTHENTICATED'});
+  }
+
   return (
     <div>
       <h1>Welcome to the testing area</h1>
       <h1>Counter: {counter} </h1>
-      <Button onClick={increment}>INCREMENT</Button>
-      <Button onClick={decrement}>DECREMENT</Button>
+      <Button color="primary" variant="contained" onClick={increment}>INCREMENT</Button>
+      <Button color="secondary" variant="contained" onClick={decrement}>DECREMENT</Button>
       <p>This example utilizes redux actions and reducers to alter state</p>
+      <Button onClick={setAuth}>AUTH</Button>
     </div>
   );
 }

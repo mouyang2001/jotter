@@ -15,21 +15,26 @@ import Test from './pages/Test';
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import {MuiThemeProvider} from "@material-ui/core/styles";
 
+// redux
+import {useDispatch, useSelector} from 'react-redux';
+
 const theme = createMuiTheme(themeObject);
 
-let authenticated;
-const token = localStorage.FBIdToken;
-if (token) {
-  const decodedToken = jwtDecode(token);
-  console.log(decodedToken);
-  if (decodedToken.exp * 1000 < Date.now()) {
-    authenticated = false;
-  } else {
-    authenticated = true;
-  }
-} 
-
 function App() {
+  const authenticated = useSelector((state) => state.user.authenticated);
+  const dispatch = useDispatch();
+  
+  const token = localStorage.FBIdToken;
+  if (token) {
+    const decodedToken = jwtDecode(token);
+    console.log(decodedToken);
+    if (decodedToken.exp * 1000 < Date.now()) {
+      dispatch({ type: "SET_UNAUTHENTICATED" });
+    } else {
+      dispatch({ type: "SET_AUTHENTICATED" });
+    }
+  }
+
   return (
     <MuiThemeProvider theme={theme}>
         <div className="App">
@@ -41,12 +46,11 @@ function App() {
                   exact
                   path="/"
                   component={Home}
-                  authenticated={authenticated}
                 />
-                <Route exact path="/login" component={Login}>
+                <Route exact path="/login">
                   {authenticated ? <Redirect to="/" /> : <Login />}
                 </Route>
-                <Route exact path="/signup" component={Signup}>
+                <Route exact path="/signup">
                   {authenticated ? <Redirect to="/" /> : <Signup />}
                 </Route>
                 <Route exact path="/test" component={Test}/>
