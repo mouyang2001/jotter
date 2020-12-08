@@ -1,14 +1,16 @@
 import React, {useState} from "react";
 import {Link, useHistory} from 'react-router-dom'
 
-import axios from '../util/axios';
-
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CircularProgress from "@material-ui/core/CircularProgress";
+
+import axios from 'axios';
+
+// redux stuff here:
 
 import AppIcon from '../images/icon.png';
 
@@ -48,7 +50,6 @@ export default function Login(props) {
   const [errors, setErrors] = useState({});
 
   const classes = useStyles();
-
   const history = useHistory();
 
   const handleSubmit = (event) => {
@@ -60,20 +61,25 @@ export default function Login(props) {
       password: password
     }
 
-    //clear previous errors
+    // redux stuff
+    // loginUser(userData, history);
+    // dispatch({type: ''})
+
+    // before redux
     setErrors({});
     setLoading(true);
-    axios.post('/login', userData)
-      .then(res => {
-        localStorage.setItem("FBIdToken", `Bearer ${res.data.token}`);
-        setLoading(false);
-        history.push('/');
-      })
-      .catch(err => {
-        console.log(err.response.data);
-        setErrors(err.response.data);
-        setLoading(false);
-      });
+      axios
+        .post("/login", userData)
+        .then((res) => {
+          localStorage.setItem("FBIdToken", `Bearer ${res.data.token}`);
+          setLoading(false);
+          history.push("/");
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+          setErrors(err.response.data);
+          setLoading(false);
+        });
   }
 
   const handleChange = (event) => {
@@ -145,3 +151,5 @@ export default function Login(props) {
     </Grid>
   );
 }
+
+

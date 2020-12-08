@@ -11,7 +11,7 @@ import themeObject from './util/theme'
 import Home from './pages/Home';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
-
+import Test from './pages/Test';
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import {MuiThemeProvider} from "@material-ui/core/styles";
 
@@ -32,22 +32,28 @@ if (token) {
 function App() {
   return (
     <MuiThemeProvider theme={theme}>
-      <div className="App">
-        <Router>
-          <Navbar />
-          <div className="container">
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/login" component={Login}>
-                {authenticated ? <Redirect to="/" /> : <Login/>}
-              </Route>
-              <Route exact path="/signup" component={Signup}>
-                {authenticated ? <Redirect to="/" /> : <Signup/>}
-              </Route>
-            </Switch>
-          </div>
-        </Router>
-      </div>
+        <div className="App">
+          <Router>
+            <Navbar />
+            <div className="container">
+              <Switch>
+                <Route
+                  exact
+                  path="/"
+                  component={Home}
+                  authenticated={authenticated}
+                />
+                <Route exact path="/login" component={Login}>
+                  {authenticated ? <Redirect to="/" /> : <Login />}
+                </Route>
+                <Route exact path="/signup" component={Signup}>
+                  {authenticated ? <Redirect to="/" /> : <Signup />}
+                </Route>
+                <Route exact path="/test" component={Test}/>
+              </Switch>
+            </div>
+          </Router>
+        </div>
     </MuiThemeProvider>
   );
 }

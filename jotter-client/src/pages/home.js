@@ -6,7 +6,7 @@ import axios from '../util/axios';
 
 import Note from '../components/Note';
 
-export default function Home() {
+export default function Home(props) {
   const [notes, setNotes] = useState(null);
 
   useEffect(() => {
