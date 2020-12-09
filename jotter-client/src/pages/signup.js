@@ -1,8 +1,8 @@
+// react
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
-import axios from "../util/axios";
-
+// material ui
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -10,6 +10,11 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
+// redux
+import { useDispatch, useSelector } from "react-redux";
+import userActions from "../redux/actions/userActions"; 
+
+// local
 import AppIcon from "../images/icon.png";
 
 const useStyles = makeStyles({
@@ -41,20 +46,22 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Signup(props) {
+export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [handle, setHandle] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({});
+
+  const loading = useSelector(state => state.ui.loading);
+  const errors = useSelector(state => state.ui.errors);
+
+  const dispatch = useDispatch();
 
   const classes = useStyles();
+  const history = useHistory();
 
   const handleSubmit = (event) => {
-    //prevent default behavior ie reload
     event.preventDefault();
-
     const newUserData = {
       email: email,
       password: password,
@@ -62,22 +69,7 @@ export default function Signup(props) {
       handle: handle
     };
 
-    //clear previous errors
-    setErrors({});
-    setLoading(true);
-    axios
-      .post("/signup", newUserData)
-      .then((res) => {
-        console.log(res.data);
-        localStorage.setItem('FBIdToken', `Bearer ${res.data.token}`);
-        setLoading(false);
-        props.history.push("/");
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-        setErrors(err.response.data);
-        setLoading(false);
-      });
+    dispatch(userActions.signupUser(newUserData, history));
   };
 
   const handleChange = (event) => {
