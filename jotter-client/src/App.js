@@ -1,3 +1,4 @@
+// react
 import React from 'react';
 import { BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
@@ -6,6 +7,9 @@ import './App.css';
 // components
 import Navbar from './components/Navbar';
 import themeObject from './util/theme'
+
+// axios
+import axios from './util/axios';
 
 //pages
 import Home from './pages/Home';
@@ -17,6 +21,7 @@ import {MuiThemeProvider} from "@material-ui/core/styles";
 
 // redux
 import {useDispatch, useSelector} from 'react-redux';
+import userActions from './redux/actions/userActions';
 
 const theme = createMuiTheme(themeObject);
 
@@ -32,6 +37,8 @@ function App() {
       dispatch({ type: "SET_UNAUTHENTICATED" });
     } else {
       dispatch({ type: "SET_AUTHENTICATED" });
+      axios.defaults.headers.common['Authorization'] = token;
+      dispatch(userActions.getUserData());
     }
   }
 

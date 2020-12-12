@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import axios from '../util/axios';
 
 import Note from '../components/Note';
+import ProfileCard from '../components/ProfileCard';
 
 export default function Home(props) {
   const [notes, setNotes] = useState(null);
@@ -25,11 +26,10 @@ export default function Home(props) {
     <div>
       <Grid container>
         <Grid item sm={8} xs={12}>
-          <p>Content</p>
           {recentNotesMarkup}
         </Grid>
         <Grid item sm={4} xs={12}>
-          <p>Profile</p>
+          <ProfileCard/>
         </Grid>
       </Grid>
     </div>
