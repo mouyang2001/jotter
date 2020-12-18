@@ -3,6 +3,9 @@ import React, { Fragment } from 'react';
 import {Link} from 'react-router-dom';
 import dayjs from 'dayjs';
 
+//components
+import EditDetails from './EditDetails';
+
 // material ui
 import { makeStyles } from "@material-ui/core/styles";
 import MuiLink from '@material-ui/core/Link';
@@ -13,6 +16,7 @@ import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import Tooltip from '@material-ui/core/Tooltip';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import KeyboardReturn from '@material-ui/icons/KeyboardReturnRounded';
 
 // Locations
 import LocationOn from '@material-ui/icons/LocationOn';
@@ -100,6 +104,10 @@ export default function ProfileCard() {
     fileInput.click();
   };
 
+  const handleLogout = () => {
+    dispatch(userActions.logoutUser());
+  }
+
   let profileMarkup = !loading ? (
     authenticated ? (
       <Paper className={classes.paper}>
@@ -168,6 +176,12 @@ export default function ProfileCard() {
             </span>
           </div>
         </div>
+        <Tooltip title="logout" placement="top">
+          <IconButton onClick={handleLogout}>
+            <KeyboardReturn color="primary"/>
+          </IconButton>
+        </Tooltip>
+        <EditDetails/>
       </Paper>
     ) : (
       <Paper className={classes.paper}>

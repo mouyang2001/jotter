@@ -32,7 +32,6 @@ function App() {
   const token = localStorage.FBIdToken;
   if (token) {
     const decodedToken = jwtDecode(token);
-    console.log(decodedToken);
     if (decodedToken.exp * 1000 < Date.now()) {
       dispatch({ type: "SET_UNAUTHENTICATED" });
     } else {
