@@ -11,7 +11,6 @@ import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { Grid } from '@material-ui/core';
 
 const useStyles = makeStyles({
   card: {
@@ -38,7 +37,6 @@ export default function Note(props) {
 
   return (
     <div>
-      <Grid xs={12} sm={11}>
         <Card className={classes.card}>
           <CardMedia
             image={userImage}
@@ -60,8 +58,7 @@ export default function Note(props) {
             <Typography variant="body1">{body}</Typography>
             <Button onClick={() => console.log(props)}>Props</Button>
           </CardContent>
-        </Card>
-      </Grid>
+        </Card> 
     </div>
   );
 }

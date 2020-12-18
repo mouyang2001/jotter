@@ -57,6 +57,15 @@ const logoutUser = () => (dispatch) => {
   dispatch({ type: "SET_UNAUTHENTICATED" });
 }
 
+const uploadImage = (formData) => (dispatch) => {
+  dispatch({type: 'LOADING_USER'});
+  axios.post('/user/image', formData)
+    .then(() => {
+      dispatch(getUserData());
+    })
+    .catch(err => console.log(err));
+}
+
 // helper functions
 const setAuthorizationHeader = (token) => {
   const FBIdToken = `Bearer ${token}`;
@@ -68,7 +77,8 @@ const userActions = {
   loginUser,
   getUserData,
   signupUser,
-  logoutUser
+  logoutUser,
+  uploadImage
 }
 
 export default userActions;

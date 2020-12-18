@@ -9,6 +9,10 @@ import MuiLink from '@material-ui/core/Link';
 import Paper from "@material-ui/core/Paper";
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
+import Tooltip from '@material-ui/core/Tooltip';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 // Locations
 import LocationOn from '@material-ui/icons/LocationOn';
@@ -16,11 +20,14 @@ import LinkIcon from '@material-ui/icons/Link';
 import CalendarToday from '@material-ui/icons/CalendarToday';
 
 // redux
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import userActions from "../redux/actions/userActions";
 
 const useStyles = makeStyles({
   paper: {
     padding: 20,
+    marginLeft: 20,
+    marginRight: 20,
   },
   profile: {
     // if wrapped within profile class, can be accessed using ""
@@ -65,9 +72,11 @@ const useStyles = makeStyles({
       margin: "20px 10px",
     },
   },
+  progress: {
+    display: 'flex',
+    margin: "20px auto 20px auto",
+  },
 });
-
-// 7:04:00
 
 export default function ProfileCard() {
 
@@ -75,7 +84,21 @@ export default function ProfileCard() {
 
   const loading = useSelector((state) => state.user.loading);
   const authenticated = useSelector((state) => state.user.authenticated);
-  const credentials = useSelector((state) => state.user.credentials); 
+  const credentials = useSelector((state) => state.user.credentials);
+
+  const dispatch = useDispatch();
+
+  const handleImageChange = (event) => {
+    const image = event.target.files[0];
+    const formData = new FormData();
+    formData.append('image', image, image.name);
+    dispatch(userActions.uploadImage(formData));
+  }
+
+  const handleEditPicture = () => {
+    const fileInput = document.getElementById('imageInput');
+    fileInput.click();
+  };
 
   let profileMarkup = !loading ? (
     authenticated ? (
@@ -87,6 +110,21 @@ export default function ProfileCard() {
               alt="profile"
               className="profile-image"
             />
+            <input
+              type="file"
+              id="imageInput"
+              className={classes.input}
+              onChange={handleImageChange}
+              hidden="hidden"
+            />
+            <Tooltip title="Edit profile picture" placement="top">
+              <IconButton
+                onClick={handleEditPicture}
+                className={classes.button}
+              >
+                <EditIcon color="primary" />
+              </IconButton>
+            </Tooltip>
           </div>
           <hr />
           <div className="profile-details">
@@ -157,7 +195,9 @@ export default function ProfileCard() {
       </Paper>
     )
   ) : (
-    <p>loading...</p>
+    <Paper className={classes.paper}>
+      <CircularProgress className={classes.progress}/>
+    </Paper>
   );
 
   return profileMarkup;

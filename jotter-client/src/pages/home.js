@@ -1,13 +1,27 @@
+// react
 import React, { useState, useEffect } from 'react'
 
-import Grid from '@material-ui/core/Grid';
-// import axios from '../util/axios';
-import axios from '../util/axios';
-
+// components
 import Note from '../components/Note';
 import ProfileCard from '../components/ProfileCard';
 
-export default function Home(props) {
+// material ui
+import Grid from '@material-ui/core/Grid';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { makeStyles } from "@material-ui/core/styles";
+// axios
+import axios from '../util/axios';
+
+const useStyles = makeStyles({
+  progress: {
+    display: "flex",
+    margin: "20px auto 20px auto",
+  },
+});
+
+export default function Home() {
+  const classes = useStyles();
+
   const [notes, setNotes] = useState(null);
 
   useEffect(() => {
@@ -19,8 +33,10 @@ export default function Home(props) {
   }, []);
 
   let recentNotesMarkup = notes ? (
-    notes.map((note) => <Note note={note} key={note.noteId}/>)
-  ) : <p>loading</p>;
+    notes.map((note) => <Note note={note} key={note.noteId} />)
+  ) : (
+    <CircularProgress className={classes.progress} />
+  );
 
   return (
     <div>
