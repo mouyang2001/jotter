@@ -80,6 +80,10 @@ const useStyles = makeStyles({
     display: 'flex',
     margin: "20px auto 20px auto",
   },
+  actions: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  }
 });
 
 export default function ProfileCard() {
@@ -176,12 +180,14 @@ export default function ProfileCard() {
             </span>
           </div>
         </div>
-        <Tooltip title="logout" placement="top">
-          <IconButton onClick={handleLogout}>
-            <KeyboardReturn color="primary"/>
-          </IconButton>
-        </Tooltip>
-        <EditDetails/>
+        <div className={classes.actions}>
+          <Tooltip title="logout" placement="top">
+            <IconButton onClick={handleLogout}>
+              <KeyboardReturn color="primary" />
+            </IconButton>
+          </Tooltip>
+          <EditDetails />
+        </div>
       </Paper>
     ) : (
       <Paper className={classes.paper}>
@@ -210,7 +216,7 @@ export default function ProfileCard() {
     )
   ) : (
     <Paper className={classes.paper}>
-      <CircularProgress className={classes.progress}/>
+      <CircularProgress className={classes.progress} />
     </Paper>
   );
 

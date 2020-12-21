@@ -65,6 +65,16 @@ const uploadImage = (formData) => (dispatch) => {
     .catch(err => console.log(err));
 }
 
+const editUserDetails = (userDetails) => (dispatch) => {
+  dispatch({type: 'LOADING_USER'});
+
+  axios.post('/user', userDetails)
+    .then(() => {
+      dispatch(getUserData());
+    })
+    .catch(err => console.log(err));
+}
+
 // helper functions
 const setAuthorizationHeader = (token) => {
   const FBIdToken = `Bearer ${token}`;
@@ -77,7 +87,8 @@ const userActions = {
   getUserData,
   signupUser,
   logoutUser,
-  uploadImage
+  uploadImage,
+  editUserDetails
 }
 
 export default userActions;
