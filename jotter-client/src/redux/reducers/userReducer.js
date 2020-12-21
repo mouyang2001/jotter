@@ -26,6 +26,24 @@ const userReducer = (state = initialState, action) => {
         ...state,
         loading: true
       }
+    case 'LIKE_NOTE':
+      return {
+        ...state,
+        likes: [
+          ...state.likes,
+          {
+            useHandle: state.credentials.handle,
+            noteId: action.payload.noteId
+          }
+        ]
+      }
+    case 'UNLIKE_NOTE':
+      return {
+        ...state,
+        likes: state.likes.filter(
+          (like) => like.noteId === action.payload.noteId
+        )
+      };
     default:
       return state;
   }

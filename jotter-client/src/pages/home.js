@@ -1,5 +1,5 @@
 // react
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 
 // components
 import Note from '../components/Note';
@@ -9,8 +9,12 @@ import ProfileCard from '../components/ProfileCard';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from "@material-ui/core/styles";
-// axios
-import axios from '../util/axios';
+
+//redux 
+import {useDispatch, useSelector} from 'react-redux';
+import dataActions from '../redux/actions/dataActions';
+
+// still have to implement nav buttons
 
 const useStyles = makeStyles({
   progress: {
@@ -22,20 +26,20 @@ const useStyles = makeStyles({
 export default function Home() {
   const classes = useStyles();
 
-  const [notes, setNotes] = useState(null);
+  // const [notes, setNotes] = useState(null);
+
+  const dispatch = useDispatch();
+  const notes = useSelector(state=> state.data.notes);
+  const loading = useSelector(state=> state.data.loading);
 
   useEffect(() => {
-    axios.get("/notes")
-      .then(res => {
-        setNotes(res.data);
-      })
-      .catch(err => console.log(err));
+    dispatch(dataActions.getNotes())
   }, []);
 
-  let recentNotesMarkup = notes ? (
-    notes.map((note) => <Note note={note} key={note.noteId} />)
-  ) : (
+  let recentNotesMarkup = loading ? (
     <CircularProgress className={classes.progress} />
+  ) : (
+    notes.map((note) => <Note note={note} key={note.noteId} />)
   );
 
   return (

@@ -1,5 +1,5 @@
-// redux
-import React, {useState} from 'react';
+// react
+import React, {useState, Fragment} from 'react';
 import {Link} from 'react-router-dom';
 
 // material ui
@@ -11,9 +11,13 @@ import IconButton from "@material-ui/core/IconButton";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import AddIcon from '@material-ui/icons/Add';
+import Tooltip from '@material-ui/core/Tooltip';
+import HomeIcon from '@material-ui/icons/Home';
+import Notifications from '@material-ui/icons/Notifications';
 
 // redux
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import userActions from "../redux/actions/userActions";
 
 export default function Navbar() {
@@ -22,9 +26,7 @@ export default function Navbar() {
 
   const dispatch = useDispatch();
 
-  const logout = () => {
-    dispatch(userActions.logoutUser());
-  }
+  const authenticated = useSelector((state) => state.user.authenticated);
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -34,6 +36,10 @@ export default function Navbar() {
     setAnchorEl(null);
   }
 
+  const handleAdd = () => {
+
+  }
+
   return (
     <div>
       <AppBar>
@@ -41,26 +47,49 @@ export default function Navbar() {
           <div className="nav-title">
             <Typography variant="h6">Jotter</Typography>
           </div>
-          <div className="nav-buttons">
-            <Button color="inherit" component={Link} to="/">
-              Home
-            </Button>
-            <Button color="inherit" component={Link} to="/login">
-              Login
-            </Button>
-            <Button color="inherit" component={Link} to="/signup">
-              Signup
-            </Button>
-            <Button color="inherit" onClick={logout}>
-              Logout
-            </Button>
-            <IconButton
-              aria-controls="simple-menu"
-              aria-haspopup="true"
-              onClick={handleMenuOpen}>
-              <MoreVertIcon />
-            </IconButton>
-          </div>
+          {authenticated ? (
+            <div className="nav-buttons">
+              <Fragment>
+                <Tooltip title="Post a Note" placement="bottom">
+                  <IconButton onClick={handleAdd}>
+                    <AddIcon />
+                  </IconButton>
+                </Tooltip>
+                <Link to="/">
+                  <Tooltip title="Home" placement="bottom">
+                    <IconButton>
+                      <HomeIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Link>
+
+                <Tooltip title="Notifications" placement="bottom">
+                  <IconButton onClick={handleAdd}>
+                    <Notifications />
+                  </IconButton>
+                </Tooltip>
+              </Fragment>
+            </div>
+          ) : (
+            <div className="nav-buttons">
+              <Button color="inherit" component={Link} to="/">
+                Home
+              </Button>
+              <Button color="inherit" component={Link} to="/login">
+                Login
+              </Button>
+              <Button color="inherit" component={Link} to="/signup">
+                Signup
+              </Button>
+            </div>
+          )}
+          <IconButton
+            aria-controls="simple-menu"
+            aria-haspopup="true"
+            onClick={handleMenuOpen}
+          >
+            <MoreVertIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
 
