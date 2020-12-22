@@ -19,7 +19,7 @@ const getNotes = () => (dispatch) => {
 }
 
 const likeNote = (noteId) => (dispatch) => {
-  axios.get(`/notes/${noteId}/like`)
+  axios.get(`/note/${noteId}/like`)
     .then(res => {
       dispatch({
         type: 'LIKE_NOTE',

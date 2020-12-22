@@ -27,19 +27,22 @@ export default function Home() {
   const classes = useStyles();
 
   // const [notes, setNotes] = useState(null);
-
   const dispatch = useDispatch();
-  const notes = useSelector(state=> state.data.notes);
-  const loading = useSelector(state=> state.data.loading);
 
   useEffect(() => {
-    dispatch(dataActions.getNotes())
+    dispatch(dataActions.getNotes());
+    // eslint-disable-next-line
   }, []);
 
-  let recentNotesMarkup = loading ? (
-    <CircularProgress className={classes.progress} />
+  // the reason why we don't access notes with selector
+  // is that it won't re-render when likeCount state changes
+  const data = useSelector(state=> state.data);
+  const loading = useSelector(state=> state.data.loading);
+
+  let recentNotesMarkup = !loading ? (
+    data.notes.map((note) => <Note note={note} key={note.noteId} />)
   ) : (
-    notes.map((note) => <Note note={note} key={note.noteId} />)
+    <CircularProgress className={classes.progress} />
   );
 
   return (

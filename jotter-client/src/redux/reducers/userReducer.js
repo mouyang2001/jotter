@@ -41,7 +41,7 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         likes: state.likes.filter(
-          (like) => like.noteId === action.payload.noteId
+          (like) => like.noteId !== action.payload.noteId
         )
       };
     default:

@@ -17,14 +17,11 @@ import HomeIcon from '@material-ui/icons/Home';
 import Notifications from '@material-ui/icons/Notifications';
 
 // redux
-import {useDispatch, useSelector} from 'react-redux';
-import userActions from "../redux/actions/userActions";
+import {useSelector} from 'react-redux';
 
 export default function Navbar() {
 
   const [anchorEl, setAnchorEl] = useState(null);
-
-  const dispatch = useDispatch();
 
   const authenticated = useSelector((state) => state.user.authenticated);
 
