@@ -20,8 +20,12 @@ import HeartIconBorder from "@material-ui/icons/FavoriteBorder";
 import {useDispatch, useSelector} from 'react-redux';
 import dataActions from '../redux/actions/dataActions';
 
+// components
+import DeleteNote from './DeleteNote';
+
 const useStyles = makeStyles({
   card: {
+    position:'relative',
     display: 'flex',
     marginBottom: 20,
   },
@@ -41,6 +45,10 @@ export default function Note(props) {
   // redux
   const likes = useSelector(state => state.user.likes);
   const authenticated = useSelector(state => state.user.authenticated);
+  const handle = useSelector(state => state.user.credentials.handle);
+
+  console.log(userHandle);
+  console.log(handle);
 
   const dispatch = useDispatch();
 
@@ -63,6 +71,11 @@ export default function Note(props) {
   const handleUnlike = () => {
     dispatch(dataActions.unlikeNote(props.note.noteId));
   }
+
+  //components
+  const deleteButton = authenticated && userHandle === handle ? (
+    <DeleteNote noteId={props.note.noteId}/>
+  ) : null;
 
   const likeButton = !authenticated ? (
     <Tooltip title="Like" placement="bottom">
@@ -100,6 +113,7 @@ export default function Note(props) {
             color="primary"
           >
             {userHandle}
+            {deleteButton}
           </Typography>
           <Typography variant="body2" color="textSecondary">
             {dayjs(createdAt).fromNow()}
@@ -109,7 +123,7 @@ export default function Note(props) {
           <span>{likeCount} Likes</span>
           <Tooltip title="Comment" placement="bottom">
             <IconButton onClick={handleComment}>
-              <Comment color="primary"/>
+              <Comment color="primary" />
             </IconButton>
           </Tooltip>
           <span>{commentCount} Comments</span>

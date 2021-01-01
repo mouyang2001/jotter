@@ -40,10 +40,19 @@ const unlikeNote = (noteId) => (dispatch) => {
     .catch(err => console.log(err));
 }
 
+const deleteNote = (noteId) => (dispatch) => {
+  axios.delete(`/note/${noteId}`)
+    .then(() => {
+      dispatch({type: 'DELETE_NOTE', payload: noteId})
+    })
+    .catch(err => console.log(err));
+}
+
 const dataActions = {
   getNotes,
   likeNote,
-  unlikeNote
+  unlikeNote,
+  deleteNote
 }
 
 export default dataActions;

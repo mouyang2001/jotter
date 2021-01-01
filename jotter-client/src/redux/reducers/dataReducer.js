@@ -22,7 +22,13 @@ const dataReducer = (state = initialState, action) => {
       let index = state.notes.findIndex((note) => note.noteId === action.payload.noteId);
       state.notes[index] = action.payload;
       return {
-        ...state,
+        ...state
+      }
+    case 'DELETE_NOTE':
+      let deleteIndex = state.notes.findIndex((note) => note.noteId === action.payload);
+      state.notes.splice(deleteIndex, 1);
+      return {
+        ...state
       }
     default: 
       return state;
