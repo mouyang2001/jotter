@@ -48,11 +48,30 @@ const deleteNote = (noteId) => (dispatch) => {
     .catch(err => console.log(err));
 }
 
+const postNote = (newNote) => (dispatch) => {
+  dispatch({type: 'LOADING_UI'});
+  axios.post('/note', newNote)
+    .then(res => {
+      dispatch({
+        type: 'POST_NOTE',
+        payload: res.data
+      });
+      dispatch({type: 'CLEAR_ERRORS'});
+    })
+    .catch(err => {
+      dispatch({
+        type: 'SET_ERRORS',
+        payload: err.response.data
+      })
+    });
+}
+
 const dataActions = {
   getNotes,
   likeNote,
   unlikeNote,
-  deleteNote
+  deleteNote,
+  postNote
 }
 
 export default dataActions;

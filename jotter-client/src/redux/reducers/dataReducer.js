@@ -30,6 +30,14 @@ const dataReducer = (state = initialState, action) => {
       return {
         ...state
       }
+    case 'POST_NOTE':
+      return {
+        ...state,
+        notes: [
+          action.payload,
+          ...state.notes
+        ]
+      }
     default: 
       return state;
   }

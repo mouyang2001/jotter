@@ -24,8 +24,8 @@ const useStyles = makeStyles({
 
 export default function DeleteNote(props) {
 
-  const [open, setOpen] = useState(false);
-  const noteId = props.noteId; 
+  const [openDelete, setOpenDelete] = useState(false);
+  const noteId = props.noteId;
 
   const dispatch = useDispatch();
 
@@ -33,26 +33,30 @@ export default function DeleteNote(props) {
 
   const handleDelete = () => {
     dispatch(dataActions.deleteNote(noteId));
-    setOpen(false);
+    setOpenDelete(false);
   }
 
   const handleOpen = () => {
-    setOpen(true);
+    setOpenDelete(true);
   }
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenDelete(false);
   }
 
   return (
     <Fragment>
-      <Tooltip title="Delete" placement="bottom" className={classes.deleteButton}>
+      <Tooltip
+        title="Delete"
+        placement="bottom"
+        className={classes.deleteButton}
+      >
         <IconButton onClick={handleOpen}>
           <DeleteOutline color="secondary" />
         </IconButton>
       </Tooltip>
 
-      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
+      <Dialog open={openDelete} onClose={handleClose} fullWidth maxWidth="sm">
         <DialogTitle>Are you sure you want to delete note?</DialogTitle>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

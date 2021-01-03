@@ -47,9 +47,6 @@ export default function Note(props) {
   const authenticated = useSelector(state => state.user.authenticated);
   const handle = useSelector(state => state.user.credentials.handle);
 
-  console.log(userHandle);
-  console.log(handle);
-
   const dispatch = useDispatch();
 
   const classes = useStyles();
@@ -69,7 +66,7 @@ export default function Note(props) {
   }
 
   const handleUnlike = () => {
-    dispatch(dataActions.unlikeNote(props.note.noteId));
+    dispatch(dataActions.unlikeNote(props.note.noteId));    
   }
 
   //components
@@ -113,8 +110,8 @@ export default function Note(props) {
             color="primary"
           >
             {userHandle}
-            {deleteButton}
           </Typography>
+          {deleteButton}
           <Typography variant="body2" color="textSecondary">
             {dayjs(createdAt).fromNow()}
           </Typography>

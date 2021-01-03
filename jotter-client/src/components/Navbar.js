@@ -11,13 +11,15 @@ import IconButton from "@material-ui/core/IconButton";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import AddIcon from '@material-ui/icons/Add';
 import Tooltip from '@material-ui/core/Tooltip';
 import HomeIcon from '@material-ui/icons/Home';
 import Notifications from '@material-ui/icons/Notifications';
 
 // redux
 import {useSelector} from 'react-redux';
+
+//components
+import PostNote from './PostNote';
 
 export default function Navbar() {
 
@@ -33,10 +35,6 @@ export default function Navbar() {
     setAnchorEl(null);
   }
 
-  const handleAdd = () => {
-
-  }
-
   return (
     <div>
       <AppBar>
@@ -47,11 +45,7 @@ export default function Navbar() {
           {authenticated ? (
             <div className="nav-buttons">
               <Fragment>
-                <Tooltip title="Post a Note" placement="bottom">
-                  <IconButton onClick={handleAdd}>
-                    <AddIcon />
-                  </IconButton>
-                </Tooltip>
+                <PostNote/>
                 <Link to="/">
                   <Tooltip title="Home" placement="bottom">
                     <IconButton>
@@ -61,7 +55,7 @@ export default function Navbar() {
                 </Link>
 
                 <Tooltip title="Notifications" placement="bottom">
-                  <IconButton onClick={handleAdd}>
+                  <IconButton>
                     <Notifications />
                   </IconButton>
                 </Tooltip>
