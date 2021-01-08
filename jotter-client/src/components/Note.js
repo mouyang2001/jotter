@@ -22,6 +22,7 @@ import dataActions from '../redux/actions/dataActions';
 
 // components
 import DeleteNote from './DeleteNote';
+import NoteDialog from './NoteDialog';
 
 const useStyles = makeStyles({
   card: {
@@ -124,6 +125,7 @@ export default function Note(props) {
             </IconButton>
           </Tooltip>
           <span>{commentCount} Comments</span>
+          <NoteDialog noteId={props.note.noteId} userHandle={userHandle}/>
         </CardContent>
       </Card>
     </div>

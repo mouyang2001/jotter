@@ -8,19 +8,18 @@ import Tooltip from "@material-ui/core/Tooltip";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
-
-// https://www.youtube.com/watch?v=m_u6P5k0vP0
-// 9:20:00 zoom into note
+import {makeStyles} from '@material-ui/core/styles';
+import { Button, DialogContent, TextField } from '@material-ui/core';
 
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { Button, DialogContent, TextField } from '@material-ui/core';
+
 import dataActions from "../redux/actions/dataActions";
 
-const useStyles = (theme) => ({
-  ...theme,
+const useStyles = makeStyles({
   submitButton: {
-    position: 'relative'
+    float: 'right',
+    marginTop: 10
   },
   progressSpinner: {
     position: 'absolute'
@@ -28,7 +27,7 @@ const useStyles = (theme) => ({
   closeButton: {
     position: 'absolute',
     left: '90%',
-    top: '10%',
+    top: '5%',
   },
 });
 
@@ -76,13 +75,11 @@ export default function PostNote() {
         </IconButton>
       </Tooltip>
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
-        <div classes={classes.closeButton}>
           <Tooltip title="Close" placement="bottom">
-            <IconButton onClick={handleClose}>
+            <IconButton className={classes.closeButton} onClick={handleClose}>
               <CloseIcon />
             </IconButton>
           </Tooltip>
-        </div>
 
         <DialogTitle>Post a new Note</DialogTitle>
         <DialogContent>

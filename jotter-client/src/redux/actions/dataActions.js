@@ -66,12 +66,30 @@ const postNote = (newNote) => (dispatch) => {
     });
 }
 
+export const getNote = (noteId) => (dispatch) => {
+  dispatch({ type: 'LOADING_UI'});
+  axios.get(`/note/${noteId}`)
+    .then(res => {
+      dispatch({
+        type: 'SET_NOTE',
+        payload: res.data
+      });
+      dispatch({
+        type: "STOP_LOADING_UI",
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+}
+
 const dataActions = {
   getNotes,
   likeNote,
   unlikeNote,
   deleteNote,
-  postNote
-}
+  postNote,
+  getNote,
+};
 
 export default dataActions;
