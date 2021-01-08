@@ -75,11 +75,11 @@ export default function PostNote() {
         </IconButton>
       </Tooltip>
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
-          <Tooltip title="Close" placement="bottom">
-            <IconButton className={classes.closeButton} onClick={handleClose}>
-              <CloseIcon />
-            </IconButton>
-          </Tooltip>
+        <Tooltip title="Close" placement="bottom">
+          <IconButton className={classes.closeButton} onClick={handleClose}>
+            <CloseIcon />
+          </IconButton>
+        </Tooltip>
 
         <DialogTitle>Post a new Note</DialogTitle>
         <DialogContent>

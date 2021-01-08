@@ -9,19 +9,22 @@ import dayjs from 'dayjs';
 import {makeStyles} from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import UnfoldMore from '@material-ui/icons/UnfoldMore';
 import Tooltip from '@material-ui/core/Tooltip';
 import CloseIcon from '@material-ui/icons/Close';
+import Comment from "@material-ui/icons/Comment";
 
 // redux
 import {useDispatch, useSelector } from 'react-redux';
 
 import dataActions from "../redux/actions/dataActions";
 import { IconButton } from '@material-ui/core';
+
+// components
+import LikeButton from './LikeButton';
 
 const useStyles = makeStyles({
   dialogContent: {
@@ -47,6 +50,10 @@ const useStyles = makeStyles({
     display: "flex",
     margin: "20px auto 20px auto",
   },
+  expandButton: {
+    position: 'absolute',
+    left: '90%',
+  },
 });
 
 export default function NoteDialog(props) {
@@ -71,30 +78,51 @@ export default function NoteDialog(props) {
   const dialogMarkup = loading ? (
     <CircularProgress className={classes.circularProgress} />
   ) : (
-    <Grid container spacing={16}>
+    <Grid container spacing={10}>
       <Grid item sm={5}>
-        <img src={note.userImage} alt="Profile" className={classes.profileImage} />
+        <img
+          src={note.userImage}
+          alt="Profile"
+          className={classes.profileImage}
+        />
       </Grid>
       <Grid item sm={7}>
-        <Typography component={Link} color="primary" variant="h5" to={`/users/${note.userHandle}`}>
+        <Typography
+          component={Link}
+          color="primary"
+          variant="h5"
+          to={`/users/${note.userHandle}`}
+        >
           @{note.userHandle}
         </Typography>
-        <hr className={classes.invisibleSeparator}/>
+        <hr className={classes.invisibleSeparator} />
         <Typography variant="body2" color="textSecondary">
-          {dayjs(note.createdAt).format('h:mm a, MMMM DD YYYY')}
+          {dayjs(note.createdAt).format("h:mm a, MMMM DD YYYY")}
         </Typography>
-        <hr className={classes.invisibleSeparator}/>
-        <Typography variant="body1">
-          {note.body}
-        </Typography>
+        <hr className={classes.invisibleSeparator} />
+        <Typography variant="body1">{note.body}</Typography>
+
+      
+        <LikeButton noteId={note.noteId} />
+        <span>{note.likeCount} Likes</span>
+        <Tooltip title="Comment" placement="bottom">
+          <IconButton>
+            <Comment color="primary" />
+          </IconButton>
+        </Tooltip>
+        <span>{note.commentCount} Comments</span>
+
       </Grid>
+
+        
+
     </Grid>
   );
 
   return (
     <Fragment>
-      <Tooltip tip="Expand note" placement="bottom">
-        <IconButton onClick={handleOpen}>
+      <Tooltip title="Expand" placement="bottom">
+        <IconButton className={classes.expandButton} onClick={handleOpen}>
           <UnfoldMore color="primary" />
         </IconButton>
       </Tooltip>
