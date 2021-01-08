@@ -25,6 +25,8 @@ import { IconButton } from '@material-ui/core';
 
 // components
 import LikeButton from './LikeButton';
+import Comments from './Comments';
+import CommentForm from './CommentForm';
 
 const useStyles = makeStyles({
   dialogContent: {
@@ -51,8 +53,13 @@ const useStyles = makeStyles({
     margin: "20px auto 20px auto",
   },
   expandButton: {
-    position: 'absolute',
-    left: '90%',
+    position: "absolute",
+    left: "90%",
+  },
+  visibleSeparator: {
+    width: "100%",
+    borderBottom: "1px solid rgba(0,0,0,0.1)",
+    marginBottom: 20,
   },
 });
 
@@ -78,7 +85,7 @@ export default function NoteDialog(props) {
   const dialogMarkup = loading ? (
     <CircularProgress className={classes.circularProgress} />
   ) : (
-    <Grid container spacing={10}>
+    <Grid container spacing={16}>
       <Grid item sm={5}>
         <img
           src={note.userImage}
@@ -113,9 +120,9 @@ export default function NoteDialog(props) {
         <span>{note.commentCount} Comments</span>
 
       </Grid>
-
-        
-
+      <hr className={classes.visibleSeparator}/>
+      <CommentForm noteId={note.noteId} />
+      <Comments />
     </Grid>
   );
 
