@@ -19,7 +19,6 @@ import Comment from "@material-ui/icons/Comment";
 
 // redux
 import {useDispatch, useSelector } from 'react-redux';
-
 import dataActions from "../redux/actions/dataActions";
 import { IconButton } from '@material-ui/core';
 
@@ -64,13 +63,16 @@ const useStyles = makeStyles({
 });
 
 export default function NoteDialog(props) {
-  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (props.openDialog) {
       handleOpen();
     }
+    // eslint-disable-next-line
   }, []); 
+
+  const [open, setOpen] = useState(false);
+  const [oldPathState, setOldPathState] = useState('');
 
   const classes = useStyles();
 
@@ -79,13 +81,30 @@ export default function NoteDialog(props) {
 
   const dispatch = useDispatch();
 
+  // todo fix undefined userhandle bug
+  // something todo with state not updating
+
   const handleOpen = () => {
     setOpen(true);
     dispatch(dataActions.getNote(props.noteId));
+    
+    // pathing
+    let oldPath = window.location.pathname;
+    const newPath = `/users/${props.userHandle}/note/${props.noteId}`;
+
+    // edge case
+    if (oldPath === newPath) {
+      oldPath = `/users/${props.userHandle}`;
+    }
+
+    window.history.pushState(null, null, newPath);
+    setOldPathState(oldPath);
   };
 
   const handleClose = () => {
+    window.history.pushState(null, null, oldPathState);
     setOpen(false);
+    dispatch(dataActions.clearErrors());
   };
 
   const dialogMarkup = loading ? (

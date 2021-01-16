@@ -132,6 +132,7 @@ const dataActions = {
   getNote,
   submitComment,
   getUserData,
+  clearErrors,
 };
 
 export default dataActions;
