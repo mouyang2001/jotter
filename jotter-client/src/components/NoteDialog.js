@@ -66,6 +66,12 @@ const useStyles = makeStyles({
 export default function NoteDialog(props) {
   const [open, setOpen] = useState(false);
 
+  useEffect(() => {
+    if (props.openDialog) {
+      handleOpen();
+    }
+  }, []); 
+
   const classes = useStyles();
 
   const loading = useSelector((state) => state.ui.loading);
@@ -73,15 +79,7 @@ export default function NoteDialog(props) {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (props.openDialog) {
-      handleOpen();
-    }
-    // eslint-disable-next-line
-  }, [])
-
-  const handleOpen = (event) => {
-    event.preventDefault();
+  const handleOpen = () => {
     setOpen(true);
     dispatch(dataActions.getNote(props.noteId));
   };

@@ -17,7 +17,7 @@ export default function User(props) {
 
   const dispatch = useDispatch();
 
-  const loading = useSelector(state => state.ui.loading);
+  const loading = useSelector(state => state.data.loading);
   const notes = useSelector(state => state.data.notes);
 
   useEffect(() => {

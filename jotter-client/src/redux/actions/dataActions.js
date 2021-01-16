@@ -66,7 +66,7 @@ const postNote = (newNote) => (dispatch) => {
     });
 }
 
-export const getNote = (noteId) => (dispatch) => {
+const getNote = (noteId) => (dispatch) => {
   dispatch({ type: 'LOADING_UI'});
   axios.get(`/note/${noteId}`)
     .then(res => {
