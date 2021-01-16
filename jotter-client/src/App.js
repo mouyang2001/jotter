@@ -16,6 +16,7 @@ import Home from './pages/Home';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Test from './pages/Test';
+import User from './pages/User';
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import {MuiThemeProvider} from "@material-ui/core/styles";
 
@@ -59,6 +60,7 @@ function App() {
                 <Route exact path="/signup">
                   {authenticated ? <Redirect to="/" /> : <Signup />}
                 </Route>
+                <Route exact path="/user/:handle" component={User}/>
                 <Route exact path="/test" component={Test}/>
               </Switch>
             </div>

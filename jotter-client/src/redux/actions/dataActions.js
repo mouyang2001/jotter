@@ -101,6 +101,24 @@ const submitComment = (noteId, commentData) => (dispatch) => {
     });
 }
 
+const getUserData = (userHandle) => (dispatch) => {
+  dispatch({ type: 'LOADING_DATA' });
+  axios
+    .get(`/user/${userHandle}`)
+    .then((res) => {
+      dispatch({
+        type: 'SET_NOTES',
+        payload: res.data.notes,
+      });
+    })
+    .catch(() => {
+      dispatch({
+        type: 'SET_NOTES',
+        payload: null,
+      });
+    });
+};
+
 const clearErrors = () => (dispatch) => {
   dispatch({ type: 'CLEAR_ERRORS' });
 };
@@ -113,6 +131,7 @@ const dataActions = {
   postNote,
   getNote,
   submitComment,
+  getUserData,
 };
 
 export default dataActions;
