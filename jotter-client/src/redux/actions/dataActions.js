@@ -83,6 +83,28 @@ export const getNote = (noteId) => (dispatch) => {
     });
 }
 
+const submitComment = (noteId, commentData) => (dispatch) => {
+  axios
+    .post(`/note/${noteId}/comment`, commentData)
+    .then((res) => {
+      dispatch({
+        type: "SUBMIT_COMMENT",
+        payload: res.data,
+      });
+      dispatch(clearErrors());
+    })
+    .catch((err) => {
+      dispatch({
+        type: 'SET_ERRORS',
+        payload: err.response.data,
+      });
+    });
+}
+
+const clearErrors = () => (dispatch) => {
+  dispatch({ type: 'CLEAR_ERRORS' });
+};
+
 const dataActions = {
   getNotes,
   likeNote,
@@ -90,6 +112,7 @@ const dataActions = {
   deleteNote,
   postNote,
   getNote,
+  submitComment,
 };
 
 export default dataActions;

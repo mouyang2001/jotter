@@ -12,7 +12,7 @@ import {useSelector} from 'react-redux';
 const useStyles = makeStyles({
   commentImage: {
     maxWidth: "100%",
-    height: 100,
+    height: "100%",
     objectFit: "cover",
     borderRadius: "50%",
   },

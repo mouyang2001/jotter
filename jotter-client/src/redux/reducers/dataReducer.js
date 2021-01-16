@@ -48,6 +48,14 @@ const dataReducer = (state = initialState, action) => {
         ...state,
         notes: [action.payload, ...state.notes],
       };
+    case 'SUBMIT_COMMENT':
+      return {
+        ...state,
+        note: {
+          ...state.note,
+          comments: [action.payload, ...state.note.comments]
+        }
+      }
     default:
       return state;
   }
