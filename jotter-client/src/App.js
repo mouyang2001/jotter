@@ -60,7 +60,8 @@ function App() {
                 <Route exact path="/signup">
                   {authenticated ? <Redirect to="/" /> : <Signup />}
                 </Route>
-                <Route exact path="/user/:handle" component={User}/>
+                <Route exact path="/users/:handle" component={User}/>
+                <Route exact path="/users/:handle/note/:noteId" component={User}/> 
                 <Route exact path="/test" component={Test}/>
               </Switch>
             </div>

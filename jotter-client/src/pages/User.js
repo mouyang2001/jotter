@@ -13,6 +13,7 @@ import Note from '../components/Note';
 export default function User(props) {
 
   const [profile, setProfile] = useState(null);
+  const [noteIdParam, setNoteIdParam] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -21,6 +22,10 @@ export default function User(props) {
 
   useEffect(() => {
     const handle = props.match.params.handle;
+    const noteId = props.match.params.noteId;
+
+    if (noteId) setNoteIdParam(noteId);
+
     dispatch(userActions.getUserData(handle));
 
     axios
@@ -36,9 +41,14 @@ export default function User(props) {
     <p>Loading data...</p>
   ) : notes === null ? (
     <p>No notes from this user</p>
-  ) : (
+  ) : !noteIdParam ? (
     notes.map(note => <Note key={note.noteId} note={note} />)
-  );
+  ) : (
+    notes.map(note => {
+      if (note.noteId !== noteIdParam) return <Note key={note.noteId} note={note} />;
+      else return <Note key={note.noteId} note={note} openDialog />;
+    })
+  )
 
   return (
     <Grid container>

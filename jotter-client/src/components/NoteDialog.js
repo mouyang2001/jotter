@@ -1,5 +1,5 @@
 // react
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 
 // other
@@ -73,7 +73,15 @@ export default function NoteDialog(props) {
 
   const dispatch = useDispatch();
 
-  const handleOpen = () => {
+  useEffect(() => {
+    if (props.openDialog) {
+      handleOpen();
+    }
+    // eslint-disable-next-line
+  }, [])
+
+  const handleOpen = (event) => {
+    event.preventDefault();
     setOpen(true);
     dispatch(dataActions.getNote(props.noteId));
   };

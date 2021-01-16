@@ -97,7 +97,7 @@ export default function Note(props) {
             </IconButton>
           </Tooltip>
           <span>{commentCount} Comments</span>
-          <NoteDialog noteId={props.note.noteId} userHandle={userHandle} />
+          <NoteDialog noteId={props.note.noteId} userHandle={userHandle} openDialog={props.openDialog}/>
         </CardContent>
       </Card>
     </div>
