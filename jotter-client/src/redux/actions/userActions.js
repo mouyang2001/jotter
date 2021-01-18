@@ -75,6 +75,16 @@ const editUserDetails = (userDetails) => (dispatch) => {
     .catch(err => console.log(err));
 }
 
+const markNotificationsRead = (notificationIds) => (dispatch) => {
+  axios.post('/notifications', notificationIds)
+    .then(res => {
+      dispatch({
+        type: 'MARK_NOTIFICATIONS_READ'
+      });
+    })
+    .catch(err => console.log(err));
+}
+
 // helper functions
 const setAuthorizationHeader = (token) => {
   const FBIdToken = `Bearer ${token}`;
@@ -88,7 +98,8 @@ const userActions = {
   signupUser,
   logoutUser,
   uploadImage,
-  editUserDetails
+  editUserDetails,
+  markNotificationsRead,
 }
 
 export default userActions;

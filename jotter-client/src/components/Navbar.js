@@ -13,7 +13,8 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Tooltip from '@material-ui/core/Tooltip';
 import HomeIcon from '@material-ui/icons/Home';
-import Notifications from '@material-ui/icons/Notifications';
+
+import Notifications from "./Notifications";
 
 // redux
 import {useSelector} from 'react-redux';
@@ -45,7 +46,7 @@ export default function Navbar() {
           {authenticated ? (
             <div className="nav-buttons">
               <Fragment>
-                <PostNote/>
+                <PostNote />
                 <Link to="/">
                   <Tooltip title="Home" placement="bottom">
                     <IconButton>
@@ -54,11 +55,13 @@ export default function Navbar() {
                   </Tooltip>
                 </Link>
 
-                <Tooltip title="Notifications" placement="bottom">
+                {/* <Tooltip title="Notifications" placement="bottom">
                   <IconButton>
                     <Notifications />
                   </IconButton>
-                </Tooltip>
+                </Tooltip> */}
+
+                <Notifications />
               </Fragment>
             </div>
           ) : (
