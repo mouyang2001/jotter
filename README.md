@@ -1,4 +1,4 @@
-# Jotter
+# Jotter https://jotter-8af9d.web.app/
 Jotter is a social platform for note taking. Users can write and share notes with each other.
 
 ## Technologies
