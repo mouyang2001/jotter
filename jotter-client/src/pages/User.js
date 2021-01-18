@@ -10,6 +10,9 @@ import axios from "../util/axios";
 import StaticProfile from '../components/StaticProfile';
 import Note from '../components/Note';
 
+import NoteSkeleton from "../util/NoteSkeleton";
+import ProfileSkeleton from "../util/ProfileSkeleton";
+
 export default function User(props) {
 
   const [profile, setProfile] = useState(null);
@@ -38,17 +41,18 @@ export default function User(props) {
   }, []);
 
   const notesMarkup = loading ? (
-    <p>Loading data...</p>
+    <NoteSkeleton />
   ) : notes === null ? (
     <p>No notes from this user</p>
   ) : !noteIdParam ? (
-    notes.map(note => <Note key={note.noteId} note={note} />)
+    notes.map((note) => <Note key={note.noteId} note={note} />)
   ) : (
-    notes.map(note => {
-      if (note.noteId !== noteIdParam) return <Note key={note.noteId} note={note} />;
+    notes.map((note) => {
+      if (note.noteId !== noteIdParam)
+        return <Note key={note.noteId} note={note} />;
       else return <Note key={note.noteId} note={note} openDialog />;
     })
-  )
+  );
 
   return (
     <Grid container>
@@ -57,7 +61,7 @@ export default function User(props) {
       </Grid>
       <Grid item sm={4} xs={12}>
         {profile === null ? (
-          <p>Loading profile...</p>
+          <ProfileSkeleton/>
         ) : (
           <StaticProfile profile={profile} />
         )}

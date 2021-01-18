@@ -15,7 +15,6 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import Tooltip from '@material-ui/core/Tooltip';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import KeyboardReturn from '@material-ui/icons/KeyboardReturnRounded';
 
 // Locations
@@ -26,6 +25,8 @@ import CalendarToday from '@material-ui/icons/CalendarToday';
 // redux
 import {useSelector, useDispatch} from 'react-redux';
 import userActions from "../redux/actions/userActions";
+
+import ProfileSkeleton from '../util/ProfileSkeleton';
 
 const useStyles = makeStyles({
   paper: {
@@ -215,9 +216,7 @@ export default function ProfileCard() {
       </Paper>
     )
   ) : (
-    <Paper className={classes.paper}>
-      <CircularProgress className={classes.progress} />
-    </Paper>
+    <ProfileSkeleton />
   );
 
   return profileMarkup;
